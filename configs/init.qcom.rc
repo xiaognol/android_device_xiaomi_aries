@@ -345,7 +345,8 @@ on post-fs-data
     # Hardware tunables
     chown root system /sys/class/timed_output/vibrator/amp
     chmod 0664 /sys/class/timed_output/vibrator/amp
-
+    chown root system /sys/devices/i2c-3/3-004b/disable_keys
+    chmod 0664 /sys/devices/i2c-3/3-004b/disable_keys
 
 on charger
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/system /system wait ro barrier=1
@@ -721,7 +722,18 @@ on property:persist.sys.aries.power_profile=middle
     write /sys/devices/system/cpu/cpufreq/interactive/max_boost 350000
     write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 40000
+    stop mpdecision
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "ondemand"
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "ondemand"
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "ondemand"
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "ondemand"
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2000000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 2000000
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2000000
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 2000000
     write /sys/class/leds/lcd-backlight/max_brightness 255
     write /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk 400000000
     start mpdecision
@@ -735,7 +747,14 @@ on property:persist.sys.aries.power_profile=low
     write /sys/devices/system/cpu/cpufreq/interactive/max_boost 350000
     write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 20000
+    stop mpdecision
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 918000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 918000
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 918000
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 918000
     write /sys/class/leds/lcd-backlight/max_brightness 70
     write /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk 200000000
     start mpdecision
